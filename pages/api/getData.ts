@@ -1,4 +1,4 @@
-// pages/api/get.js
+// pages/api/getData.js
 
 import pool from '@/app/lib/db';
 import { htmlToText } from 'html-to-text';
