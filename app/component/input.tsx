@@ -12,21 +12,21 @@ const EditorForm = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
-  const [data, setData] = useState<{ id: number }[]>([]);
-  const [editingData, setEditingData] = useState<{ id: number } | null>(null);
+  const [data, setData] = useState([]);
+  const [editingData, setEditingData] = useState(null);
 
-  const handleImageUpload = (e : any) => {
+  const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (upload : any) => {
+      reader.onload = (upload) => {
         setImage(upload.target.result);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleSubmit = async (e : any) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const imageString = image ? image : '';
@@ -34,17 +34,15 @@ const EditorForm = () => {
 
     try {
       if (editingData) {
-        // Update existing data
         const response = await axios.put('/api/updateData', { id: editingData.id, ...payload });
         if (response.status === 200) {
           setData(data.map(item => (item.id === editingData.id ? response.data.updatedData : item)));
           setEditingData(null);
         }
       } else {
-        // Save new data
         const response = await axios.post('/api/saveData', payload);
         if (response.status === 200) {
-          console.log('Data saved with ID:', response.data.dataId);
+          setData([...data, response.data]);
         }
       }
       setTitle('');
@@ -67,14 +65,13 @@ const EditorForm = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-10">
-      <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="container mx-auto p-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-gray-700">
             Title
           </label>
           <input
-            type="text"
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -108,7 +105,7 @@ const EditorForm = () => {
         <div className="flex space-x-4">
           <button
             type="submit"
-            className="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
           >
             {editingData ? 'Update' : 'Submit'}
           </button>
