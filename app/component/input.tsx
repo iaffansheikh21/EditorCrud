@@ -38,11 +38,13 @@ const EditorForm = () => {
         if (response.status === 200) {
           setData(data.map(item => (item.id === editingData.id ? response.data.updatedData : item)));
           setEditingData(null);
+          alert('Data updated successfully');
         }
       } else {
         const response = await axios.post('/api/saveData', payload);
         if (response.status === 200) {
           setData([...data, response.data]);
+          alert('Data submitted successfully');
         }
       }
       setTitle('');
@@ -50,6 +52,7 @@ const EditorForm = () => {
       setImage(null);
     } catch (error) {
       console.error('Error saving data:', error);
+      alert('Failed to save data');
     }
   };
 
@@ -58,9 +61,11 @@ const EditorForm = () => {
       const response = await axios.get('/api/getData');
       if (response.status === 200) {
         setData(response.data);
+        alert('Data fetched successfully');
       }
     } catch (error) {
       console.error('Error fetching data:', error);
+      alert('Failed to fetch data');
     }
   };
 
