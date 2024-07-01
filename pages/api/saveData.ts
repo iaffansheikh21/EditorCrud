@@ -10,7 +10,7 @@ export default async function handler(req : any, res : any) {
     try {
       const client = await pool.connect();
       const result = await client.query(
-        'INSERT INTO editorcrud (article_data) VALUES ($1) RETURNING data_id',
+        'INSERT INTO crud_data (article_data) VALUES ($1) RETURNING data_id',
         [articleData]
       );
       client.release();

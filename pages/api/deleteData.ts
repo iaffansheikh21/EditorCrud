@@ -11,7 +11,7 @@ export default async function handler(req : any, res : any) {
 
     try {
       const client = await pool.connect();
-      const result = await client.query('DELETE FROM editorcrud WHERE data_id = $1 RETURNING *', [id]);
+      const result = await client.query('DELETE FROM crud_data WHERE data_id = $1 RETURNING *', [id]);
       client.release();
 
       if (result.rowCount === 0) {

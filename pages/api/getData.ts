@@ -7,7 +7,7 @@ export default async function handler(req : any, res : any) {
   if (req.method === 'GET') {
     try {
       const client = await pool.connect();
-      const result = await client.query('SELECT * FROM editorcrud');
+      const result = await client.query('SELECT * FROM crud_data');
       client.release();
 
       const formattedData = result.rows.map(row => {

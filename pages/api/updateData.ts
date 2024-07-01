@@ -12,7 +12,7 @@ export default async function handler(req : any, res : any) {
     try {
       const client = await pool.connect();
       const result = await client.query(
-        'UPDATE editorcrud SET article_data = $1 WHERE data_id = $2 RETURNING *',
+        'UPDATE crud_data SET article_data = $1 WHERE data_id = $2 RETURNING *',
         [`${title},${description},${imageString}`, id]
       );
       client.release();
